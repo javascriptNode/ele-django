@@ -18,12 +18,19 @@ from django.urls import path
 from django.conf.urls import url, include
 from ele_django import views
 
+# 功能
+from function import views as functionViews
 # 用户
 from user import views as userViews
+
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
     url('^$', views.index, name='index'),
-    # 用户
-    url('^user/$', userViews.login, name='login'),
+    # 注册
+    url('^user/signup/$', userViews.signUp, name='signUp'),
+    # 登录
+    url('^user/signin/$', userViews.signIn, name='signIn'),
+    # 图片验证码
+    url('^user/imagecode/$', functionViews.imageCode, name='imageCode'),
 ]
