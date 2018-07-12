@@ -2,7 +2,9 @@ from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 import random
 
-def check_code(width=90, height=40, char_length=4, font_file='Aeron.ttf'):
+
+
+def check_code(width=90, height=40, char_length=4, font_file='static/Aeron.ttf'):
     f = BytesIO()
 
     img = Image.new(
@@ -32,7 +34,7 @@ def check_code(width=90, height=40, char_length=4, font_file='Aeron.ttf'):
         	char, 
         	fill = (random.randint(0, 100), random.randint(0, 100), random.randint(0, 100)), 
         	font = font
-        ),
+        )
         char_list.append(char)
 
     # 生成随机颜色
@@ -58,11 +60,10 @@ def check_code(width=90, height=40, char_length=4, font_file='Aeron.ttf'):
         y2 = random.randint(0, height)
         draw.line((x1, y1, x2, y2), fill=rndColor())
 
-    # img.show()
+    img.show()
     img.save(f, "png")
     data = f.getvalue()
     s_code = ''.join(char_list)
-    print(data)
     return data, s_code
 
-check_code()
+# check_code()
