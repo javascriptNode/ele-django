@@ -1,10 +1,11 @@
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
+import base64
 import random
+import os
 
 
-
-def check_code(width=90, height=40, char_length=4, font_file='static/Aeron.ttf'):
+def check_code(width=90, height=40, char_length=4, font_file='Aeron.ttf'):
     f = BytesIO()
 
     img = Image.new(
@@ -28,12 +29,14 @@ def check_code(width=90, height=40, char_length=4, font_file='static/Aeron.ttf')
         	str(random.randint(1, 9)), 
         	chr(random.randint(97, 122)), 
         ])
-        font = ImageFont.truetype(font_file, random.randint(18, 30))
+        # 绝对地址
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)),'static',font_file)
+        font = ImageFont.truetype(path, random.randint(18, 30))
         draw.text(
         	[i * 20 + 5, 0], 
         	char, 
         	fill = (random.randint(0, 100), random.randint(0, 100), random.randint(0, 100)), 
-        	font = font
+            font = font
         )
         char_list.append(char)
 
@@ -60,10 +63,15 @@ def check_code(width=90, height=40, char_length=4, font_file='static/Aeron.ttf')
         y2 = random.randint(0, height)
         draw.line((x1, y1, x2, y2), fill=rndColor())
 
-    img.show()
+    #img.show()
     img.save(f, "png")
-    data = f.getvalue()
+
+    baseData = base64.b64encode(f.getvalue())
+    data = 'data:image/png;base64,{val}'.format( val = str(baseData,'utf-8') )
+    # print( 'data:image/png;base64,{val}'.format( val=base64.b64encode(f.getvalue()) )  )
     s_code = ''.join(char_list)
     return data, s_code
 
-# check_code()
+
+
+

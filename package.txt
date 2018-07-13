@@ -1,0 +1,4 @@
+# PIL图片处理
+Pillow   
+# 连接mysql
+PyMySQL
