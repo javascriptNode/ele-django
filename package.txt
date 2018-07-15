@@ -1,4 +1,6 @@
-# PIL图片处理
+﻿# PIL图片处理
 Pillow   
 # 连接mysql
 PyMySQL
+# 跨域
+django-cors-headers

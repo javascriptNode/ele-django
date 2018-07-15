@@ -2,12 +2,12 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 
 from PIL import Image
-from util import code
+from utils import code
 
 # 获取验证码
 def imageCode(request):
 	data, s_code = code.check_code()
-	print(request.session.get("s_code", 0))
+	# print(request.session.get("s_code", 0))
 	request.session["s_code"] = s_code
 	request.session.set_expiry(200)
 	if( data ):
@@ -26,5 +26,5 @@ def imageCode(request):
 			'data': {}
 		}
 	res = JsonResponse( response );
-	res['Access-Control-Allow-Origin'] = '*'
+	# res['Access-Control-Allow-Origin'] = '*'
 	return res;

@@ -63,7 +63,7 @@ def check_code(width=90, height=40, char_length=4, font_file='Aeron.ttf'):
         y2 = random.randint(0, height)
         draw.line((x1, y1, x2, y2), fill=rndColor())
 
-    #img.show()
+    # img.show()
     img.save(f, "png")
 
     baseData = base64.b64encode(f.getvalue())
