@@ -1,53 +1,63 @@
 from django.shortcuts import render
-from django.http import HttpResponse,JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from django.core import serializers
+from django.views import View
+from django.core.cache import cache
 
-from user.models import User
+from .models import User
+from utils import decorstor
+
+
+
 # 注册
-def signUp(request):
-	response = {
-		'code': 1,
-		'data': None,
-		'msg': '请求类型错误'
-	}
-	if(request.method == 'GET'):
-		username = request.GET.get('username',0)
-		password = request.GET.get('password',0)
-		s_code = request.GET.get('s_code',0)
+@decorstor.resConfig
+class signUp(View):
+	def get(self, request):
+		res_data = self.res_data
+		username = request.POST.get('username',0)
+		password = request.POST.get('password',0)
+		s_code = request.POST.get('s_code',0)
 		session_code = request.session.get('s_code',0)
 		# 判断
 		if(not username):
-			response['msg'] = '用户名不能为空'
-			return JsonResponse(response)
+			res_data['msg'] = '用户名不能为空'
+			return JsonResponse(res_data)
 		if(not password):
-			response['msg'] = '密码不能为空'
-			return JsonResponse(response)
+			res_data['msg'] = '密码不能为空'
+			return JsonResponse(res_data)
 		if(not s_code):
-			response['msg'] = '验证码不能为空'
-			return JsonResponse(response)
+			res_data['msg'] = '验证码不能为空'
+			return JsonResponse(res_data)
 		if(not session_code):
-			response['msg'] = '无法获取验证码信息'
-			return JsonResponse(response)			
-		if(s_code != session_code):
-			response['msg'] = '验证码错误'
-			return JsonResponse(response)
-		# 创建	
+			res_data['msg'] = '无法获取验证码信息'
+			return JsonResponse(res_data)			
+		if(s_code.lower() != session_code.lower()):
+			res_data['msg'] = '验证码错误'
+			return JsonResponse(res_data)
+		# 创建用户
 		try:
 			User.objects.get(username=username)
-			response['msg'] = '用户已存在'
-		except:
+			res_data['msg'] = '用户已存在'
+		except User.DoesNotExist:
 			db = User(username=username, password=password)
 			db.save()
-			response['code'] = 0
-			response['msg'] = '创建用户成功'
-	return JsonResponse(response)
+			res_data['code'] = 0
+			res_data['msg'] = '创建用户成功'
+		return JsonResponse(res_data)
 
 # 登录
-def signIn(request):
-	username = request.POST.get('username',0)
-	password = request.POST.get('password',0)
-	
-	# res = { 'code':  }
-	return JsonResponse( {} )
-
-
+@decorstor.resConfig
+class signIn(View):	
+	def get(self, request):
+		
+		res_data = self.res_data
+		username = request.GET.get('username',0)
+		password = request.GET.get('password',0)
+		try:	
+			db = User.objects.get(username=username)
+			if(db.password == password):
+				1
+		except User.DoesNotExist:
+			res_data['msg'] = '该用户不存在'
+		cache.set('a', 888)
+		return JsonResponse( self.res_data )

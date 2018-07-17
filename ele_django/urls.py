@@ -21,16 +21,18 @@ from ele_django import views
 # 功能
 from function import views as functionViews
 # 用户
-from user import views as userViews
-
+from user.views import signUp, signIn
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
+    # 测试
     url('^$', views.index, name='index'),
     # 注册
-    url('^user/signup/$', userViews.signUp, name='signUp'),
+    url('^user/signup/$', signUp().as_view(), name='signUp'),
     # 登录
-    url('^user/signin/$', userViews.signIn, name='signIn'),
+    url('^user/signin/$', signIn().as_view(), name='signIn'),
     # 图片验证码
     url('^user/imagecode/$', functionViews.imageCode, name='imageCode'),
 ]
+
+
