@@ -59,5 +59,5 @@ class signIn(View):
 				1
 		except User.DoesNotExist:
 			res_data['msg'] = '该用户不存在'
-		cache.set('a', 888)
+		cache.set('a', 888, timeout=)
 		return JsonResponse( self.res_data )
