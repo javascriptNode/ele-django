@@ -6,8 +6,9 @@ from utils import code
 
 # 获取验证码
 def imageCode(request):
+	# 获取验证码
 	data, s_code = code.check_code()
-	# print(request.session.get("s_code", 0))
+	# 设置验证时长
 	request.session["s_code"] = s_code
 	request.session.set_expiry(200)
 	if( data ):

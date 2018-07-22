@@ -4,3 +4,11 @@ Pillow
 PyMySQL
 # 跨域
 django-cors-headers
+# 缓存
+django-redis
+# token
+djangorestframework
+
+
+# 接口地址
+https://www.eolinker.com/#/home/project/inside/overview?projectName=react-element&projectHashKey=KlLUqF3e8556afcdb198e8ae2a53ad28c508785904a5b26
