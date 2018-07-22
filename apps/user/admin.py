@@ -1,8 +1,6 @@
 from django.contrib import admin
+from django.utils.html import format_html
+from .models import User, UserInfo
 
-from .models import User
-# Register your models here.
-class UserTable(admin.ModelAdmin):
-	list_display = ['createtime','username','password']
-	search_fields = ['username','username']
-admin.site.register(User, UserTable)
+admin.site.register(User)
+admin.site.register(UserInfo)
